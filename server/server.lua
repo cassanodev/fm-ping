@@ -105,7 +105,7 @@ Register('createPing', function(coords)
     local src = source
 
     local lastTimer = lastRequestTimers[src]
-    if lastTimer and (GetGameName - lastRequestTimers[src]) < Settings.Cooldown then return end
+    if lastTimer and (GetGameTimer() - lastRequestTimers[src]) < (Settings.Cooldown * 1000) then return end
 
     local playerPed = GetPlayerPed(src)
     if playerPed == 0 then return end
@@ -113,7 +113,7 @@ Register('createPing', function(coords)
     local playerCoords = GetEntityCoords(playerPed)
     if #(coords - vec3(playerCoords.x, playerCoords.y, playerCoords.z)) > Settings.MaxDistance then return end
 
-    lastRequestTimers[src] =
+    lastRequestTimers[src] = GetGameTimer()
 
     Pings[src] = coords
 
